@@ -359,6 +359,42 @@ let demoList = {
       "goodsId": "02831abb7c6141db85c92d045c6da464",
       "price": 3,
       "name": "蒜黄300g-320g/袋",
+    },{
+      "image": "http://images.baixingliangfan.cn/compressedPic/20180412173646_7050.jpg",
+      "mallPrice": 4.00,
+      "goodsId": "4ae4e2e2c1df45308be5011a97aae537",
+      "price": 4.00,
+      "goodsName": "乐百氏脉动芒果味600ml/瓶"
+    }, {
+      "image": "http://images.baixingliangfan.cn/compressedPic/20180413142444_1480.jpg",
+      "mallPrice": 6.90,
+      "goodsId": "4cf7744443f94557b7c6ad37dca9c4db",
+      "price": 6.90,
+      "goodsName": "农夫山泉NFC橙汁100%300ml/瓶"
+    }, {
+      "image": "http://images.baixingliangfan.cn/compressedPic/20180411084437_6209.jpg",
+      "mallPrice": 8.60,
+      "goodsId": "66074cd2d8464dcc9b2d7fbef5b417d9",
+      "price": 8.60,
+      "goodsName": "七度空间少女棉超薄超长夜用卫生巾8片/包"
+    }, {
+      "image": "http://images.baixingliangfan.cn/compressedPic/20180407172335_1082.jpg",
+      "mallPrice": 15.00,
+      "goodsId": "6694401a30a940f6ae437d541b7fd26d",
+      "price": 15.00,
+      "goodsName": "爱莲巧牛奶巧克力100g/块"
+    }, {
+      "image": "http://images.baixingliangfan.cn/compressedPic/20180407172544_4503.jpg",
+      "mallPrice": 9.90,
+      "goodsId": "a632bfb3818541da8e6843d6d0dbd917",
+      "price": 9.90,
+      "goodsName": "Gemez小鸡干脆面（烧烤鸡肉味）90g/袋"
+    }, {
+      "image": "http://images.baixingliangfan.cn/compressedPic/20180407173221_2015.jpg",
+      "mallPrice": 8.00,
+      "goodsId": "ad176e397858448a854dc50371334faf",
+      "price": 8.00,
+      "goodsName": "单身狗粮地中海盐味薯片 71g/袋"
     }],
     "recommend": [{
       "image": "http://images.baixingliangfan.cn/compressedPic/20180411083404_6619.jpg",
@@ -426,24 +462,6 @@ let demoList = {
       "goodsId": "af117ed90b624318914fd4b42001216c",
       "price": 6.50,
       "goodsName": "可口可乐2L/瓶"
-    }, {
-      "image": "http://images.baixingliangfan.cn/compressedPic/20180413142955_5219.jpg",
-      "mallPrice": 6.90,
-      "goodsId": "bdd9bd7f131843c59c7f9aabdb36f069",
-      "price": 6.90,
-      "goodsName": "农夫山泉NFC苹果香蕉汁100%300ml/瓶"
-    }, {
-      "image": "http://images.baixingliangfan.cn/compressedPic/20180410091738_4529.jpg",
-      "mallPrice": 138.00,
-      "goodsId": "d6e15b84c1cd45138d9493c72333f7ce",
-      "price": 138.00,
-      "goodsName": "可米小子象牙松子罐装262g/罐"
-    }, {
-      "image": "http://images.baixingliangfan.cn/compressedPic/20180407171943_7260.jpg",
-      "mallPrice": 29.80,
-      "goodsId": "e53c046465204d4fb8f22431cc2807e7",
-      "price": 29.80,
-      "goodsName": "费罗伦珍珠水果糖（狮子座）240g/盒"
     }, {
       "image": "http://images.baixingliangfan.cn/compressedPic/20180412174207_1023.jpg",
       "mallPrice": 4.00,

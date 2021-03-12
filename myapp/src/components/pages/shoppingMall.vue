@@ -92,13 +92,7 @@ export default {
       },
       msg: "shoppingMall",
       locationIcon: require("../../assets/images/定位.png"), //在打包时图片路径不会出错
-      bannerPicArray: [
-        {image:"https://aecpm.alicdn.com/simba/img/TB1XotJXQfb_uJkSnhJSuvdDVXa.jpg"},
-        {image:"https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"},
-        {image:"https://aecpm.alicdn.com/simba/img/TB1JNHwKFXXXXafXVXXSutbFXXX.jpg"},
-        {image:"//img.alicdn.com/tfs/TB1Kv77DUY1gK0jSZFMXXaWcVXa-520-280.jpg_q90_.webp"},
-        {image:"//img.alicdn.com/tps/i4/TB1GjgsEa61gK0jSZFlSutDKFXa.jpg_q90_.webp"}
-      ],
+      bannerPicArray: [],
       category:[],
       adBanner:"",
       recommendGoods:[],
@@ -132,8 +126,6 @@ export default {
              this.floor3 = res.data.data.floor3;
              this.floorName = res.data.data.floorName;
              this.hotGoods = res.data.data.hotGoods;
-
-
         }
     }).catch(err=>{
       console.log(err);
@@ -145,7 +137,7 @@ export default {
 <style scoped>
 .search-bar {
   height: 2.2rem;
-  background-color: #e5017d;
+  background-color: #008c8c;
   line-height: 2.2rem;
   overflow: hidden;
 }
@@ -242,7 +234,7 @@ export default {
     text-align: center;
 }
 .hot-goods{
-  height:102rem;
-  overflow: scroll;
+  height:120rem;
+  overflow: auto;
 }
 </style>

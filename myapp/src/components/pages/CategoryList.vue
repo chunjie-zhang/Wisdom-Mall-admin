@@ -197,7 +197,7 @@ export default {
   text-align: center;
 }
 .categoryActive {
-  background-color: deeppink;
+  background-color:#008c8c;
   color:white;
 }
 

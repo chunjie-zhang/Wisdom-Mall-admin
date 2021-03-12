@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-    <title>myapp</title>
+    <link rel="shortcut icon" href="@/assets/images/logo.png">
+    <title>智慧商城</title>
   </head>
   <body>
     <div id="app"></div>
@@ -15,6 +16,9 @@
     // if(htmlwidth>750){
     //     htmlwidth = 750
     // }
-    htmlDom.style.fontSize = htmlwidth/20+"px";
+    let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+    if(flag){
+      htmlDom.style.fontSize = htmlwidth/20+"px";
+    }
   </script>
 </html>

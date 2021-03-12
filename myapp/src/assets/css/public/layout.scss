@@ -1,0 +1,32 @@
+.el-header,.el-main{
+    width: 1190px;
+    margin: 0 auto;
+    padding: 0;
+    overflow: unset;
+}
+
+.el-header{
+    background: #F8F8F8;
+    color: #999;
+    width: 100%;
+    font-size: 12px;
+    .m-header{
+        width: 1190px;
+        margin: 0 auto;
+    }
+}
+.el-footer{
+    width: 100%;
+    padding: 0px 0px;
+    margin: 0px 0px;
+}
+.layout-default{
+    -webkit-font-smoothing: antialiased;
+    font-family: "-apple-system",
+    BlinkMacSystemFont,
+    Roboto,
+    "Helvetica Neue",
+    "MIcrosoft YaHei",
+    sans-serif !important;
+    background-color: #F8F8F8;
+}

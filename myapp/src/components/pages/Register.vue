@@ -51,7 +51,7 @@ export default {
                 if(res.data.code==200){
                     Toast.success(res.data.message);
                     localStorage.removeItem("userInfo");
-                    this.$router.push("/login");
+                    this.$router.push("/moblie/login");
                 }else{
                     console.log(res.data.message);
                     this.openLoading = false;

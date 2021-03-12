@@ -50,7 +50,7 @@
         created(){
             if(localStorage.userInfo){
                 Toast.success('您已经登录过了')
-                this.$router.push('/main')
+                this.$router.push('/mobile')
             }
         },
        methods: {
@@ -81,7 +81,7 @@
                        setTimeout(()=>{resolve()},1000)
                    }).then(()=>{
                         Toast.success('登录成功')
-                        this.$router.push('/main')
+                        this.$router.push('/mobile')
                    }).catch(err=>{
                        Toast.fail('登录状态保存失败')
                        console.log(err)
