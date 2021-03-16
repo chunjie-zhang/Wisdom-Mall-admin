@@ -14,7 +14,7 @@
       <div @click="jumpToDetail(meta.ID)" class="my-item-name">
         {{ meta.NAME }}
       </div>
-      <div @click="toCollection">
+      <div @click="toCollection(meta.ID)">
         <img
           src="../../assets/images/noCollection.png"
           v-if="isCollection"
@@ -69,6 +69,8 @@
 
 <script>
 import { dateFilter } from "../../filter/dateFilter";
+import axios from "axios";
+import url from "../../serviceAPIConfig";
 export default {
   props: ["meta"],
   data() {
@@ -87,8 +89,8 @@ export default {
   created() {
     const that = this
     setTimeout(()=>{
-      console.log(that.meta.IS_RECOMMEND)
       this.isCollection =  that.meta.IS_RECOMMEND === 0 
+      console.log(this.meta)
     },300)
   },
   methods: {
@@ -96,15 +98,45 @@ export default {
     jumpToDetail(id) {
       this.$router.push({ path: "/detail", query: { goodsId: id } });
     },
-    toCollection() {
-      let data = [];
-       this.isCollection = !this.isCollection
-      if(this.meta.IS_RECOMMEND === 1){
-        data.push(meta)
-        localStorage.setItem('collection',JSON.stringify(data))
-      } else {
-        localStorage.removeItem()
+    toCollection(id) {
+      // this.meta.IS_RECOMMEND === 1
+      if(this.meta.IS_RECOMMEND === 0){
+        axios.post(url.updateCollectData,{
+          goodsId: id
+        }).then((res)=>{
+          console.log(res.data.code)
+          res.data.code === 200 ? this.isCollection = false : this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "error",
+            });
+        }).catch(()=>{
+          this.isCollection = true
+          this.$message({
+              showClose: true,
+              message: '请求失败',
+              type: "error",
+            });
+        })
+      } else if(this.meta.IS_RECOMMEND === 1){
+         axios.post(url.cancelCollectData,{
+          goodsId: id
+        }).then((res)=>{
+          res.data.code === 200 ? this.isCollection = true : this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "error",
+            });
+        }).catch(()=>{
+          this.isCollection = false
+          this.$message({
+              showClose: true,
+              message: '请求失败',
+              type: "error",
+            });
+        })
       }
+      
     },
   },
 };

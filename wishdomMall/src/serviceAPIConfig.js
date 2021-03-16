@@ -3,7 +3,24 @@ const BASEURL = "http://localhost:8080";
 const LOCALURL = "http://localhost:3000/"
 const pc_changeCity_url = 'http://open.duyiedu.com'
 const URL ={
-    updateGoodsComment: LOCALURL+'goods/updateCommodityReview',
+    updateGoodsComment: LOCALURL+'goods/updateCommodityReview', // 添加商品评论
+    updateCollectData: LOCALURL+ 'goods/updateCollectData', // 商品收藏
+    cancelCollectData: LOCALURL+ 'goods/cancelCollectData', // 取消收藏
+    goodsCollectData: LOCALURL+ 'goods/goodsCollectData', // 收藏数据
+    getGoodsListByPrice: LOCALURL+ 'goods/getGoodsListByPrice', //详情页价格排序
+    getGoodsListBySaleCount: LOCALURL+ 'goods/getGoodsListBySaleCount', // 详情页人气排序
+
+
+    insertShoppingCartData: LOCALURL+'user/insertShoppingCartData', //添加购物车数据
+    getShoppingCartData: LOCALURL+'user/getShoppingCartData', // 得到购物车数据
+    removeShoppingCartData: LOCALURL+'user/removeShoppingCartData', // 删除购物车数据
+    removeAllShoppingData: LOCALURL+'user/removeAllShoppingData', // 删除所有购物车数据
+    shoppingCartPayment: LOCALURL+'user/shoppingCartPayment', // 支付接口
+    waitOrderPaymentData: LOCALURL+ 'user/waitOrderPaymentData', // 保存待支付订单接口
+    getOrderPaymentData:  LOCALURL+ 'user/getOrderPaymentData', // 获取待支付订单
+    cancelPaymentOrder: LOCALURL+ 'user/cancelPaymentOrder', // 取消待支付订单
+
+
 
     //移动端api接口
     getShopingMallInfo : BASEURL+'/api/data',    //商城首页所有信息

@@ -17,6 +17,7 @@ const actions  = {
     setPosition({commit},val){
         //异步请求后端位置数据
         commit("setPosition",val)
+        console.log(val)
     }
 }
 

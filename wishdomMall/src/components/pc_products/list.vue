@@ -7,11 +7,25 @@
       </div>
       <ul>
         <li
-          v-for="item in nav"
+          v-for="(item, index) in nav"
           :key="item.key"
+          class="page-list-title"
           :class="{ 's-nav-active': item.active }"
+          @click="handleTitleChange(item, index)"
         >
           {{ item.name }}
+          <div
+            class="page-list-sort"
+            v-if="index > 0"
+            :class="{ isSort: (sort1 === -1 || sort2 === -1) && index === i }"
+            @click="handlejiantou(index)"
+          >
+            <img
+              class="page-sort-jiantou"
+              src="../../assets/images/箭头.png"
+              alt="sort"
+            />
+          </div>
         </li>
       </ul>
       <el-row>
@@ -19,6 +33,15 @@
           <item :meta="item" />
         </div>
       </el-row>
+      <div class="page-list-pagination">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="total"
+          @current-change="handlePageChange"
+        >
+        </el-pagination>
+      </div>
     </div>
     <my-error v-else></my-error>
   </div>
@@ -40,17 +63,12 @@ export default {
         },
         {
           key: "s-price",
-          name: "价格最低",
+          name: "价格排序",
           active: false,
         },
         {
           key: "s-score",
-          name: "人气最高",
-          active: false,
-        },
-        {
-          key: "s-comment",
-          name: "评价最高",
+          name: "人气排序",
           active: false,
         },
       ],
@@ -98,29 +116,109 @@ export default {
       categorySubId: "",
       searchName: "",
       hasData: true,
+      total: 0,
+      sort1: 1,
+      sort2: 1,
+      i: "",
     };
   },
   components: { item, myError },
   created() {
     this.searchName = this.$route.params.name;
     this.categorySubId = this.$route.query.categorySubId;
-    axios
-      .post(url.getGoodsListByCategorySubID, {
-        categorySubId: this.categorySubId,
-        page: this.page,
-      })
-      .then(
-        (res) => {
-          console.log(res.data.message);
-          this.productList = res.data.message;
-          if (res.data.message.length === 0 || res.data.message === null) {
-            this.hasData = false;
-          }
-        },
-        (err) => {
-          this.hasData = false;
-        }
-      );
+    this.httpRequest();
+  },
+  methods: {
+    httpRequest() {
+        axios
+          .post(url.getGoodsListByCategorySubID, {
+            categorySubId: this.categorySubId,
+            page: this.page,
+          })
+          .then(
+            (res) => {
+              this.productList = res.data.message;
+              this.total = res.data.total;
+              if (res.data.message.length === 0 || res.data.message === null) {
+                this.hasData = false;
+              }
+            },
+            (err) => {
+              this.hasData = false;
+            }
+          );
+    },
+    getGoodsListByPrice() {
+      axios
+          .post(url.getGoodsListByPrice, {
+            categorySubId: this.categorySubId,
+            page: this.page,
+            sort: this.sort1
+          })
+          .then(
+            (res) => {
+              this.productList = res.data.message;
+              this.total = res.data.total;
+              if (res.data.message.length === 0 || res.data.message === null) {
+                this.hasData = false;
+              }
+            },
+            (err) => {
+              this.hasData = false;
+            }
+          );
+    },
+    getGoodsListBySaleCount() {
+      axios
+          .post(url.getGoodsListBySaleCount, {
+            categorySubId: this.categorySubId,
+            page: this.page,
+            sort: this.sort2
+          })
+          .then(
+            (res) => {
+              this.productList = res.data.message;
+              this.total = res.data.total;
+              if (res.data.message.length === 0 || res.data.message === null) {
+                this.hasData = false;
+              }
+            },
+            (err) => {
+              this.hasData = false;
+            }
+          );
+    },
+    handlePageChange(val) {
+      this.page = val;
+      console.log(val);
+      this.httpRequest();
+    },
+    handleTitleChange(item,index) {
+      this.nav.map((item) => {
+        item.active = false;
+      });
+      item.active = true;
+      if(index ===1 ) {
+        this.getGoodsListByPrice()
+      } else if (index === 2){
+        this.getGoodsListBySaleCount()
+      } else {
+        this.httpRequest()
+      }
+      
+    },
+    handlejiantou(index) {
+      this.i = index;
+      console.log(index)
+      if(index === 1) {
+        this.sort1 === 1 ? this.sort1 = -1 : this.sort1 = 1;
+        this.getGoodsListByPrice()
+
+      } else {
+        this.sort2 === 1 ? this.sort2 = -1 : this.sort2 = 1;
+        this.getGoodsListBySaleCount()
+      }
+    },
   },
 };
 </script>
@@ -131,5 +229,27 @@ export default {
   padding: 8px 6px;
   font-weight: 800;
   font-size: 18px;
+}
+.page-list-pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  border-top: 1px solid #999;
+}
+.page-sort-jiantou {
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
+}
+.page-list-title {
+  position: relative;
+}
+.page-list-sort {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+}
+.isSort {
+  transform: rotate(180deg);
 }
 </style>

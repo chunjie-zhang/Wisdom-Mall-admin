@@ -6,13 +6,13 @@
          <router-link to="/">我的智慧商城</router-link>
          <dl>
              <dd>
-               <router-link to="/">我的订单</router-link> 
+               <router-link :to='{name: "shoppingCart"}'>我的购物车</router-link> 
              </dd>
              <dd>
-                 <router-link to="/">我的收藏</router-link>
+                 <router-link :to='{name: "pc_orderDetail"}'>我的订单</router-link>
              </dd>
              <dd>
-                 <router-link to="/">抵用劵</router-link>
+                 <router-link :to='{name: "pc_collect"}'>我的收藏</router-link>
              </dd>
              <dd>
                  <router-link to="/">账户设置</router-link>

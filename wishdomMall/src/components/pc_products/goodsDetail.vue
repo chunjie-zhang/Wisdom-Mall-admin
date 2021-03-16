@@ -43,19 +43,24 @@
                 更新时间：{{ goodsInfo.UPDATE_TIME | dateFormat }}
               </div>
               <div class="detail-cart">
-                <el-button type="success">加入购物车</el-button>
+                <el-button type="success" @click="handleShoppingCart"
+                  >加入购物车</el-button
+                >
                 <el-button type="danger">直接购买</el-button>
               </div>
             </div>
           </el-col>
         </el-row>
         <el-row class="detail-tabs">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName">
             <el-tab-pane label="商品详情" name="first">
               <div v-html="goodsInfo.DETAIL" class="detail-images"></div>
             </el-tab-pane>
             <el-tab-pane label="评价" name="second">
-              <comment :commentData="goodsInfo.COMMENT" :goodsId='goodsId'></comment>
+              <comment
+                :commentData="goodsInfo.COMMENT"
+                :goodsId="goodsId"
+              ></comment>
             </el-tab-pane>
           </el-tabs>
         </el-row>
@@ -79,6 +84,7 @@ export default {
   data() {
     return {
       goodsId: "",
+      userName: "",
       goodsInfo: {},
       imgArr: [],
       activeName: "first",
@@ -97,12 +103,15 @@ export default {
     },
   },
   created() {
+    if (localStorage.getItem("userInfo")) {
+      this.userName = JSON.parse(localStorage.getItem("userInfo")).userName;
+    }
+    this.goodsId = this.$route.query.goodsId;
     this.httpRequest();
   },
   methods: {
     httpRequest() {
-      this.goodsId = this.$route.query.goodsId;
-      console.log(this.$route.query.goodsId);
+      console.log(this.goodsId);
       axios
         .post(url.getDetailGoodsInfo, {
           goodsId: this.goodsId,
@@ -118,8 +127,40 @@ export default {
           }
         );
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
+    handleShoppingCart() {
+      axios
+        .post(url.insertShoppingCartData, {
+          goodsId: this.goodsId,
+          userName: this.userName,
+        })
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "success",
+            });
+          } else if (res.data.code === 201 || res.data.code === 202) {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch(() => {
+          this.$message({
+            showClose: true,
+            message: "请求错误",
+            type: "error",
+          });
+        });
     },
   },
 };

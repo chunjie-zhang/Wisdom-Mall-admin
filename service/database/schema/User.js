@@ -19,6 +19,22 @@ const userSchema = new Schema({
         trim: true,
         required: true
     },
+    love:{
+        type: Array,
+        default: []
+    },
+    shoppingCart:{
+        type: Array,
+        default: []
+    },
+    waitPaymentOrder:{
+        type: Array,
+        default: []
+    },
+    totalPayMoney: {
+        type: Number,
+        default: 0
+    },
     createAt:{
         type: Date,
         default: Date.now()},

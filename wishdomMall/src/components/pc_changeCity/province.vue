@@ -105,7 +105,7 @@ export default {
     },
     changeCity(item){
         this.city = item.name;
-        this.$store.dispatch("setPosition",item)
+        this.$store.dispatch("setPosition", this.province+this.city)
         this.$router.push({name:'pc_index'});
     },
     remoteMethod(val){

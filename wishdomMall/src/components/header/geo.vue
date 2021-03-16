@@ -3,7 +3,7 @@
   <div class="m-geo">
     <div class="position">
       <i class="el-icon-location" />
-      {{ $store.state.position.name }}
+      {{ $store.state.position }}
       <router-link class="changeCity" :to="{ name: 'changeCity' }">
         切换城市
       </router-link>
