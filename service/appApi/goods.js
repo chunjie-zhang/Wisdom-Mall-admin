@@ -43,6 +43,30 @@ router.get('/insertAllCategory', async (ctx) => {
     ctx.body = "开始导入数据....."
 })
 
+// 插入首页数据到服务器
+router.get('/insertFloor', async (ctx) => {
+    fs.readFile('./data_json/floor.json', 'utf8', (err, data) => {
+        data = JSON.parse(data)
+        console.log(data)
+        let saveCount = 0
+        const floors = mongoose.model('floor')
+        data.data.map((value, index) => {
+            console.log(value)
+            let newGoods = new floors(value)
+            newGoods.save().then(() => {
+                saveCount++
+                console.log('成功' + saveCount)
+            }).catch(error => {
+                console.log(error)
+            })
+        })
+
+    })
+    ctx.body = "开始导入数据....."
+})
+
+
+
 router.get('/insertAllCategorySub', async (ctx) => {
     fs.readFile('./data_json/category_sub.json', 'utf8', (err, data) => {
         data = JSON.parse(data)
@@ -62,6 +86,11 @@ router.get('/insertAllCategorySub', async (ctx) => {
     })
     ctx.body = "开始导入数据....."
 })
+
+
+
+
+
 
 //**获取商品详情信息的接口
 router.post('/getDetailGoodsInfo', async (ctx) => {
@@ -175,7 +204,9 @@ router.post('/getGoodsListByPrice', async (ctx) => {
         let result = await Goods.find({
                 SUB_ID: categorySubId
             })
-            .skip(start).limit(num).sort([['PRESENT_PRICE', sort]]).exec()
+            .skip(start).limit(num).sort([
+                ['PRESENT_PRICE', sort]
+            ]).exec()
         ctx.body = {
             code: 200,
             message: result,
@@ -210,7 +241,9 @@ router.post('/getGoodsListBySaleCount', async (ctx) => {
         let result = await Goods.find({
                 SUB_ID: categorySubId
             })
-            .skip(start).limit(num).sort([['SALES_COUNT', sort]]).exec()
+            .skip(start).limit(num).sort([
+                ['SALES_COUNT', sort]
+            ]).exec()
         ctx.body = {
             code: 200,
             message: result,
@@ -336,6 +369,67 @@ router.get('/goodsCollectData', async (ctx) => {
         ctx.body = {
             code: 500,
             message: error
+        }
+    }
+})
+
+/**
+ * 搜索数据api
+ */
+
+router.post('/searchGoodsData', async (ctx) => {
+    try {
+        let keyword = ctx.request.body.searchword
+        let pageSize =  ctx.request.body.pageSize ? ctx.request.body.pageSize : 1
+        let num = 10 //每页显示数量
+        let start = (pageSize - 1) * num //开始位置
+        const reg = new RegExp(keyword)
+        if (keyword !== '') {
+            
+            const Goods = mongoose.model('newGoods')
+            let myResult = await Goods.find({
+                NAME: reg
+            })
+            let result = await Goods.find({
+                NAME: reg
+            }).skip(start).limit(num).exec()
+
+            ctx.body = {
+                code: 200,
+                message: result,
+                goodsLen: myResult.length
+
+            }
+        } else {
+            ctx.body = {
+                code: 200,
+                message: [],
+            }
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            message: '查询失败',
+        }
+    }
+})
+
+/**
+ * 移动端首页数据
+ */
+router.get('/getShopingMallInfo', async (ctx) => {
+    try {
+
+        let floor = mongoose.model('floor')
+        let result = await floor.find()
+        ctx.body = {
+            code: 200,
+            message: result,
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            message: '获取数据失败',
         }
     }
 })

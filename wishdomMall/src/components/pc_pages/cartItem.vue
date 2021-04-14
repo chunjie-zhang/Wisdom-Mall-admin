@@ -17,10 +17,10 @@
       <p>
         <span>
           原价￥
-          <del>{{ meta.ORI_PRICE }}</del>
+          <del>{{ meta.ORI_PRICE | moneyFormat }}</del>
         </span>
         <span class="s-item-price"> 现价￥
-          <span class="s-item-myprice">{{ meta.PRESENT_PRICE }}</span>
+          <span class="s-item-myprice">{{ meta.PRESENT_PRICE | moneyFormat }}</span>
           </span>
       </p>
     </dd>
@@ -33,13 +33,13 @@
         </div>
         <div class="my-cartItem-style">
           <div class="my-cartItem-totalPrice">
-          总价：{{ totalPrice }}
+          总价：{{ totalPrice | moneyFormat }}
         </div>
         <div class="my-cartItem-discount">
-          优惠: {{ discount }}
+          优惠: {{ discount | moneyFormat }}
         </div>
         <div class="my-cartItem-discountPrice">
-          折扣价：{{ discountPrice }}
+          折扣价：{{ discountPrice | moneyFormat }}
         </div>
         </div>
         <div class="my-cartItem-btn">
@@ -51,6 +51,7 @@
 
 <script>
 import { dateFilter } from "../../filter/dateFilter";
+import { toMoney } from "../../filter/moneyFilter";
 export default {
   props: ["meta", 'index'],
   data() {
@@ -76,6 +77,9 @@ export default {
     dateFormat(date) {
       return dateFilter(date);
     },
+    moneyFormat(money) {
+      return toMoney(money)
+    }
   },
   created() {
     const that = this
@@ -86,7 +90,7 @@ export default {
   methods: {
     // 删除购物车商品
     handleDeleteEvent(goodsId, index) {
-      this.$emit('removeShoppingCart',goodsId, index)
+      this.$emit('removeShoppingCart', goodsId, index)
     },
 
     // 跳转详情页

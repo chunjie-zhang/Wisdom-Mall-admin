@@ -3,7 +3,7 @@
         <div class="goods-image">
             <img v-lazy="goodsImage" width="90%" />
         </div>
-        <div class="goods-name">{{goodsName}}</div>
+        <div class="goods-name">{{goodsName === undefined ? name : goodsName }}</div>
         <div class="goods-price">￥{{goodsPrice | moneyFilter }}</div>
     </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
     import {toMoney} from '@/filter/moneyFilter.js'
     export default {
-        props:['goodsImage','goodsName','goodsPrice',"goodsId"],
+        props:['goodsImage','goodsName','goodsPrice',"goodsId", "name"],
         filters:{//过滤器
             moneyFilter(money){
                 return toMoney(money)

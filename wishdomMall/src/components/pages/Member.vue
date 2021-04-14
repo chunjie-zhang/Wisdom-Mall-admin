@@ -20,11 +20,10 @@
     </div>
     <div>
       <van-cell-group>
-        <van-cell title="会员卡" is-link />
-        <van-cell title="地址管理" is-link />
-        <van-cell title="我的订单" is-link />
-        <van-cell title="会员权益" is-link />
-        <van-cell title="联系我们" is-link />
+        <van-cell title="我的订单" is-link to = 'waitPayMent'/>
+        <van-cell title="我的收藏" is-link to = "Collection"/>
+        <van-cell title="地址管理" is-link to = "location"/>
+        <van-cell title="联系我们" is-link to = "/moblie/chat"/>
       </van-cell-group>
     </div>
   </div>
@@ -36,7 +35,7 @@
             return{
                 myname:"",
                 display:false,
-                toux:require("@/assets/images/toux.jpeg"),
+                toux: require("@/assets/images/toux.jpeg"),
             }
         },
         created(){
@@ -46,13 +45,13 @@
            }
         },
         methods:{
-           onclickRegister(){
+           onclickRegister() {
                this.$router.push({name:"Register"});
            },
-            onclickLogin(){
+            onclickLogin() {
                this.$router.push({name:"Login"});
            },
-           onclickNewLogin(){
+           onclickNewLogin() {
                localStorage.removeItem("userInfo");
                this.$router.push({name:"Login"});
            }

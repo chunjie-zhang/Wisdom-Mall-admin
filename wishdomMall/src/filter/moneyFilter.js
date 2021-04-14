@@ -1,5 +1,5 @@
 export function toMoney(money){
-    let newMoney = money;
+    let newMoney = parseInt(money);
     if(newMoney){
         newMoney = newMoney.toFixed(2);
     }else{

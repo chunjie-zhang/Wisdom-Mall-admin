@@ -7,10 +7,7 @@
           <img class="location-icon" :src="locationIcon" alt="定位" />
         </van-col>
         <van-col span="16">
-          <input type="search" placeholder="请输入搜索商品" class="search-input" />
-        </van-col>
-        <van-col span="5">
-          <van-button class="search-button" size="mini">查找</van-button>
+          <input type="search" placeholder="快点搜索你心爱的商品吧" class="search-input" @click="jumpToSearch"/>
         </van-col>
       </van-row>
     </div>
@@ -19,13 +16,13 @@
       <van-swipe :autoplay="2000">
         <van-swipe-item v-for="(banner,index) in bannerPicArray" :key="index">
            <!--v-lazy是按需加载,懒加载vant提供的-->
-          <img class="swiper-img" v-lazy="banner.image" alt="轮播图" width="100%" />
+          <img class="swiper-img" v-lazy="banner.image" alt="轮播图" width="100%" @click="handleBannerJump(banner.goodsId)"/>
         </van-swipe-item>
       </van-swipe>
     </div>
     <!-- type bar-->
     <div class="type-bar">
-      <div v-for="(cate,index) in category" :key="index">
+      <div v-for="(cate,index) in category" :key="index" >
           <img v-lazy = "cate.image" width="100%">
           <span>{{ cate.mallCategoryName}}</span>
       </div>
@@ -42,7 +39,7 @@
         <div class="recommeng-body">
             <swiper :options ="swiperOption">
               <swiper-slide v-for="(item,index) in recommendGoods" :key="index">
-                 <div class="recommend-item">
+                 <div class="recommend-item" @click="handleBannerJump(item.goodsId)">
                    <img :src="item.image" alt="" width="80%">
                    <div>{{item.goodsName}}</div>
                    <div class="recommend-money">￥{{item.price | moneyFilter}}(￥{{item.mallPrice | moneyFilter}})</div>
@@ -67,7 +64,7 @@
                 <!--gutter 为间距20-->
                 <van-row gutter="20">
                     <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
-                        <goods-info :goodsId ="item.goodsId" :goodsImage ="item.image" :goodsName ="item.name" :goodsPrice ="item.price"></goods-info>
+                        <goods-info :goodsId ="item.goodsId" :goodsImage ="item.image" :goodsName ="item.name" :name ="item.goodsName" :goodsPrice ="item.price"></goods-info>
                     </van-col>
                 </van-row>
               </van-list>
@@ -115,22 +112,30 @@ export default {
       url: url.getShopingMallInfo,
       method:"get",
     }).then((res)=>{
-        if(res.status==200){
+        if(res.data.code === 200){
           console.log(res.data.data);
-             this.category = res.data.data.category
-             this.adBanner = res.data.data.advertesPicture.PICTURE_ADDRESS;
-             this.bannerPicArray = res.data.data.slides;
-             this.recommendGoods = res.data.data.recommend;
-             this.floor1 = res.data.data.floor1;
-             this.floor2 = res.data.data.floor2;
-             this.floor3 = res.data.data.floor3;
-             this.floorName = res.data.data.floorName;
-             this.hotGoods = res.data.data.hotGoods;
+             this.category = res.data.message[0].category
+             this.adBanner = res.data.message[0].advertesPicture.PICTURE_ADDRESS;
+             this.bannerPicArray = res.data.message[0].slides;
+             this.recommendGoods = res.data.message[0].recommend;
+             this.floor1 = res.data.message[0].floor1;
+             this.floor2 = res.data.message[0].floor2;
+             this.floor3 = res.data.message[0].floor3;
+             this.floorName = res.data.message[0].floorName;
+             this.hotGoods = res.data.message[0].hotGoods;
         }
     }).catch(err=>{
-      console.log(err);
+      Toast.error("获取数据失败");
     })
   },
+  methods:{
+    handleBannerJump(goodsId){
+      this.$router.push({ name: "Goods", query : { goodsId: goodsId }})
+    },
+    jumpToSearch() {
+      this.$router.push({ name: "search"})
+    }
+  }
 };
 </script>
 
@@ -148,7 +153,7 @@ export default {
   height: 1.3rem;
 }
 .search-input {
-  width: 100%;
+  width: 125%;
   height: 1.3rem;
   padding-left: 0.6rem;
   padding-right: 0.6rem;
@@ -234,7 +239,8 @@ export default {
     text-align: center;
 }
 .hot-goods{
-  height:120rem;
+  height:100rem;
   overflow: auto;
+  padding-bottom: 70px;
 }
 </style>

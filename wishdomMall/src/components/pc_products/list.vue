@@ -17,8 +17,8 @@
           <div
             class="page-list-sort"
             v-if="index > 0"
-            :class="{ isSort: (sort1 === -1 || sort2 === -1) && index === i }"
-            @click="handlejiantou(index)"
+            :class="{ isSort:  (sort1 === -1 || sort2 === -1) && index === i }"
+            @click.stop="handlejiantou(index)"
           >
             <img
               class="page-sort-jiantou"
@@ -58,7 +58,7 @@ export default {
       nav: [
         {
           key: "s-default",
-          name: "智能排序",
+          name: "默认排序",
           active: true,
         },
         {
@@ -190,7 +190,6 @@ export default {
     },
     handlePageChange(val) {
       this.page = val;
-      console.log(val);
       this.httpRequest();
     },
     handleTitleChange(item,index) {
@@ -209,15 +208,15 @@ export default {
     },
     handlejiantou(index) {
       this.i = index;
-      console.log(index)
       if(index === 1) {
         this.sort1 === 1 ? this.sort1 = -1 : this.sort1 = 1;
         this.getGoodsListByPrice()
 
-      } else {
+      } else if (index === 2){
         this.sort2 === 1 ? this.sort2 = -1 : this.sort2 = 1;
         this.getGoodsListBySaleCount()
       }
+      console.log(this.sort1, this.sort2)
     },
   },
 };

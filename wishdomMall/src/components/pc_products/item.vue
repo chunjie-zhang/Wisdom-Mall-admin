@@ -43,18 +43,17 @@
         <span v-else-if="score > 3">一般</span>
         <span v-else>很差</span>
         <span class="">{{ score }}分</span>
-        <span class="s-item-comment-total"
-          >{{ meta.COMMENT_NUM  }}人评论</span
-        >
+        <span class="s-item-comment-total">{{ meta.COMMENT_NUM }}人评论</span>
       </p>
       <p>
         <span>
           原价￥
           <del>{{ meta.ORI_PRICE }}</del>
         </span>
-        <span class="s-item-price"> 现价￥
+        <span class="s-item-price">
+          现价￥
           <span class="s-item-myprice">{{ meta.PRESENT_PRICE }}</span>
-          </span>
+        </span>
       </p>
       <p class="my-sale-payment">
         <span> 库存:{{ meta.AMOUNT }} </span>
@@ -87,11 +86,11 @@ export default {
     },
   },
   created() {
-    const that = this
-    setTimeout(()=>{
-      this.isCollection =  that.meta.IS_RECOMMEND === 0 
-      console.log(this.meta)
-    },300)
+    const that = this;
+    setTimeout(() => {
+      this.isCollection = that.meta.IS_RECOMMEND === 0;
+      console.log(this.meta);
+    }, 300);
   },
   methods: {
     // 跳转详情页
@@ -100,43 +99,56 @@ export default {
     },
     toCollection(id) {
       // this.meta.IS_RECOMMEND === 1
-      if(this.meta.IS_RECOMMEND === 0){
-        axios.post(url.updateCollectData,{
-          goodsId: id
-        }).then((res)=>{
-          console.log(res.data.code)
-          res.data.code === 200 ? this.isCollection = false : this.$message({
+      if (this.meta.IS_RECOMMEND === 0) {
+        axios
+          .post(url.updateCollectData, {
+            goodsId: id,
+          })
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.isCollection = false;
+              this.meta.IS_RECOMMEND = 1;
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
               showClose: true,
-              message: res.data.message,
+              message: "请求失败",
               type: "error",
             });
-        }).catch(()=>{
-          this.isCollection = true
-          this.$message({
+          });
+      } else if (this.meta.IS_RECOMMEND === 1) {
+        axios
+          .post(url.cancelCollectData, {
+            goodsId: id,
+          })
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.isCollection = true;
+              this.meta.IS_RECOMMEND = 0;
+              console.log(this.meta.IS_RECOMMEND)
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
               showClose: true,
-              message: '请求失败',
+              message: "请求失败",
               type: "error",
             });
-        })
-      } else if(this.meta.IS_RECOMMEND === 1){
-         axios.post(url.cancelCollectData,{
-          goodsId: id
-        }).then((res)=>{
-          res.data.code === 200 ? this.isCollection = true : this.$message({
-              showClose: true,
-              message: res.data.message,
-              type: "error",
-            });
-        }).catch(()=>{
-          this.isCollection = false
-          this.$message({
-              showClose: true,
-              message: '请求失败',
-              type: "error",
-            });
-        })
+          });
       }
-      
     },
   },
 };
@@ -173,7 +185,7 @@ export default {
   right: 50px;
   top: 0px;
 }
-.item-span-collection{
+.item-span-collection {
   position: absolute;
   top: 5px;
   right: 20px;
@@ -183,11 +195,11 @@ export default {
   color: #999;
   cursor: pointer;
 }
-.s-item-myprice{
+.s-item-myprice {
   font-size: 16px !important;
   font-weight: 600;
 }
-.my-item-dd{
+.my-item-dd {
   position: relative;
 }
 </style>

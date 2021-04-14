@@ -33,7 +33,11 @@
                   </div>
                   <div class="list-item-text">
                     <div>{{item.NAME}}</div>
-                    <div class="list-item-text-2">￥{{item.ORI_PRICE | moneyFilter}}</div>
+                    <div @click.stop="handleCollection(item.ID, item.IS_RECOMMEND, index)">
+                      <img v-if="item.IS_RECOMMEND === 0" class="list-item-collection" src="../../assets/images/noCollection.png" alt="收藏">
+                      <img v-else class="list-item-collection" src="../../assets/images/collection.png" alt="收藏">
+                    </div>
+                    <div class="list-item-text-2">￥{{ item.ORI_PRICE | moneyFilter }}</div>
                   </div>
                 </div>
               </van-list>
@@ -54,6 +58,9 @@ import {toMoney} from "@/filter/moneyFilter.js"
 export default {
   data() {
     return {
+      isCollection: true,
+      noCollection: require("../../assets/images/noCollection.png"),
+      collection: require("../../assets/images/collection.png"),
       category: [],
       categoryIndex: 0,
       categorySub: [], //小类
@@ -149,7 +156,6 @@ export default {
         }
       })
         .then(response => {
-          console.log(response);
           if (response.data.code == 200 && response.data.message.length) {
             this.page++;
             this.goodList = this.goodList.concat(response.data.message);
@@ -159,7 +165,7 @@ export default {
           this.loading = false;
         })
         .catch(error => {
-          console.log(error);
+          Toast.fail('请求错误')
         });
     },
     //点击获取子类的
@@ -175,7 +181,29 @@ export default {
     //跳转商品详情页 编程式导航不能用query应该用params
     goGoodsInfo(id){
        this.$router.push({name:"Goods",query:{goodsId:id}})
-    }
+    },
+    handleCollection(id, IS_RECOMMEND, index) {
+      if(IS_RECOMMEND === 0){
+        axios.post(url.updateCollectData,{
+          goodsId: id
+        }).then((res)=>{
+          res.data.code === 200 ? this.goodList[index].IS_RECOMMEND = 1 : Toast.fail("获取请求失败");
+        }).catch(()=>{
+          this.isCollection = true
+          Toast.fail("获取请求失败");
+        })
+      } else if(IS_RECOMMEND === 1){
+         axios.post(url.cancelCollectData,{
+          goodsId: id
+        }).then((res)=>{
+          res.data.code === 200 ? this.goodList[index].IS_RECOMMEND = 0 : Toast.fail("获取请求失败");
+        }).catch(()=>{
+          this.isCollection = false
+          Toast.fail("获取请求失败");
+        })
+      }
+      
+    },
   },
   filters:{
     moneyFilter(money){
@@ -219,9 +247,17 @@ export default {
   flex: 16;
   margin-top: 10px;
   margin-left: 10px;
+  position: relative;
 }
 .list-item-text-2{
   font-size: 1rem;
   color:red;
+}
+.list-item-collection{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 20px;
+  top: 35px;
 }
 </style>

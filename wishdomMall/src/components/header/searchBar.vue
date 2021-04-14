@@ -7,17 +7,16 @@
         </el-col>
         <el-col :span="15" class="center">
            <div class="wrapper">
-             <el-input v-model="searchword" placeholder="请输入内容" @focus="focus" @blur="blur"></el-input>
-             <el-button type="primary" icon="el-icon-search">搜索</el-button>
+             <el-input v-model="searchword" placeholder="请输入你喜欢的商品" prefix-icon="el-icon-search" @focus="focus" @blur="blur" @input="handleSearchData"></el-input>
              <dl class="hotPlace" v-if="isHotPlace">
                <dt>热门搜索</dt>
                <dd v-for="(item,index) in hotPlaceList" :key="index">
-                 <router-link :to="{name:'goods',params:{name:item}}">{{item}}</router-link>
+                 <router-link :to="{ name:'Pc_detail', query:{goodsId: item}}">{{ item }}</router-link>
                </dd>
              </dl>
              <dl class="searchList" v-if="isSearchList">
                <dd v-for="(item,index) in searchList" :key="index">
-                  <router-link :to="{name:'goods',params:{name:item}}">{{item}}</router-link>
+                  <router-link :to="{ name:'Pc_detail', query:{goodsId: item.ID}}" @click.native="handleJumpRouter">{{item.NAME}}</router-link>
                </dd>
              </dl>
            </div>
@@ -30,14 +29,18 @@
 </template>
 
 <script>
+import axios from "axios";
+import url from "../../serviceAPIConfig";
+
 export default {
   data(){
     return {
-      searchword:"",//输入的value值
-      isfocus:false,//是否是聚焦
-      hotPlaceList:["新鲜水果","中外名酒","营养奶品","个人护理","食品饮料"],//热卖搜索数据
-      searchList:["火锅","火锅自助餐","火锅 重庆"],//搜索列表数据
-      suggestList:["新鲜水果","中外名酒","营养奶品","个人护理","食品饮料"],//建议列表数据
+      timer: null,
+      searchword: "", //输入的value值
+      isfocus: false, //是否是聚焦
+      hotPlaceList: ["新鲜水果","中外名酒","营养奶品","个人护理","食品饮料"], //热卖搜索数据
+      searchList: [],//搜索列表数据
+      suggestList: ["新鲜水果","中外名酒","营养奶品","个人护理","食品饮料"], //建议列表数据
     }
   },
   computed:{
@@ -50,22 +53,62 @@ export default {
          return this.isfocus && this.searchword;
      }
   },
-  created(){
-    
-  },
-  methods:{
-     focus(){
-       this.isfocus = true;
-     },
-     blur(){
+  methods: {
+    focus(){
+      this.isfocus = true
+    },
+     blur() {
        /**
         * 如果不加定时器我们点击搜索列表会先执行blur事件,从而搜索列表会消失
         */
-       setTimeout(()=>{
-        this.isfocus = false; 
-       },200)
-     }
+      //  setTimeout(()=>{
+      //   this.isfocus = false; 
+      //  },100)
+     },
 
+     handleSearchData() {
+       this.isfocus = true;
+       let searchword = this.searchword.trim()
+       if(searchword === ''){
+         return;
+       }
+
+       clearTimeout(this.timer)
+       this.timer = setTimeout(() => {
+           axios.post(url.searchGoodsData, {
+         searchword: searchword
+       }).then((res) => {
+         if(res.data.code === 200) {
+           if(res.data.message && res.data.message.length !==0){
+             this.searchList = res.data.message
+           } else {
+             this.$message({
+              showClose: true,
+              message: '暂无数据',
+              type: "success",
+            });
+            this.searchList = []
+           }
+         } else {
+           this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "error",
+            });
+         }
+       }).catch(() => {
+         this.$message({
+              showClose: true,
+              message: '查询失败',
+              type: "error",
+            });
+       })
+       }, 1000)
+       
+     },
+     handleJumpRouter(){
+       this.isfocus = false
+     }
   }
 }
 </script>

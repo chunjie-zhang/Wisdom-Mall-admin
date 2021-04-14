@@ -10,6 +10,11 @@ import CategoryList from '@/components/pages/CategoryList'
 import Cart from '@/components/pages/Cart'
 import Main from '@/components/pages/Main'
 import Member from '@/components/pages/Member'
+const collection = () => import ('@/components/pages/collection')
+const waitPayMent = () => import ('@/components/pages/waitPayMent')
+const location = () => import ('@/components/pages/location')
+const search = () => import ('@/components/pages/search')
+const chat = () => import ('@/components/pages/chat')
 
 //pc端路由
 const pcDefault = () => import('@/layout/default')
@@ -23,6 +28,7 @@ const goodDetail = () => import('@/components/pc_products/goodsDetail')
 const pcCollect = () => import('@/components/pc_pages/collect')
 const pcCart = () => import('@/components/pc_pages/shoppingCart')
 const pcOrderDetail = () => import('@/components/pc_pages/orderPayDetail')
+const pcLocation = () => import('@/components/pc_pages/location')
 
 Vue.use(Router)
 
@@ -56,7 +62,11 @@ const routes = new Router({
         },
       ]
     },
-
+    {
+      path: '/moblie/search',
+      name: 'search',
+      component: search
+    },
     {
       path: '/moblie/register',
       name: 'Register',
@@ -71,6 +81,26 @@ const routes = new Router({
       path: '/moblie/goods',
       name: 'Goods',
       component: Goods
+    },
+    {
+      path: '/moblie/chat',
+      name: 'chat',
+      component: chat
+    },
+    {
+      path: '/mobile/collection',
+      name: 'Collection',
+      component: collection
+    },
+    {
+      path: '/mobile/waitPayMent',
+      name: 'waitPayMent',
+      component: waitPayMent
+    },
+    {
+      path: '/mobile/location',
+      name: 'location',
+      component: location
     },
 
     //pc端路由
@@ -109,6 +139,11 @@ const routes = new Router({
           path: '/orderPayDetail',
           name: 'pc_orderDetail',
           component: pcOrderDetail
+        },
+        {
+          path: '/location',
+          name: 'pc_location',
+          component: pcLocation
         }
       ]
     },
@@ -130,7 +165,7 @@ const routes = new Router({
   ]
 });
 
-const routerName = ['Pc_detail', 'pc_collect','shoppingCart', 'pc_orderDetail']
+const routerName = ['goods','Pc_detail', 'pc_collect','shoppingCart', 'pc_orderDetail','pc_location','Goods','Cart','Collection','waitPayMent','CategoryList', 'location']
 routes.beforeEach((to, from, next) => {
   console.log(to.name)
   if (routerName.includes(to.name)) {

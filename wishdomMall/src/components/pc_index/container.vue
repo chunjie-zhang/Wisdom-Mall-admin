@@ -125,6 +125,9 @@ export default {
             },]//主体部分数据
         }
     },
+    created(){
+        
+    },
     methods:{
         over(e){
              let dom = e.target;

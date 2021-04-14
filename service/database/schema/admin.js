@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const SALT_WORK_FACTOR = 10;
 
 //创建我们的用户Schema
-const userSchema = new Schema({
+const adminSchema = new Schema({
     UserId:ObjectId,
     userName:{
         unique: true, // 唯一
@@ -20,27 +20,8 @@ const userSchema = new Schema({
         required: true
     },
     love:{
-        type: Object,
-        default: {
-            SUB_ID: [],
-            Level: []
-        }
-    },
-    shoppingCart:{
         type: Array,
         default: []
-    },
-    waitPaymentOrder:{
-        type: Array,
-        default: []
-    },
-    totalPayMoney: {
-        type: Number,
-        default: 0
-    },
-    location: {
-        type: String,
-        default: ''
     },
     createAt:{
         type: Date,
@@ -51,7 +32,7 @@ const userSchema = new Schema({
 
 })
 //用bcrypt进行加盐加密处理
-  userSchema.pre("save",function(next){
+  adminSchema.pre("save",function(next){
       bcrypt.genSalt(SALT_WORK_FACTOR,(err,salt)=>{
           if(err) return next(err);
           bcrypt.hash(this.password,salt,(err,hash)=>{
@@ -62,8 +43,8 @@ const userSchema = new Schema({
       })
   })
    
-//userSchema的实例方法要new才能使用_password是数据库的密码，password是前端写的密码
-userSchema.methods={
+//adminSchema的实例方法要new才能使用_password是数据库的密码，password是前端写的密码
+adminSchema.methods={
     comparePassword:(_password,password)=>{
         return new Promise((resolve,reject)=>{
             //bcrypt提供的比对方法，有一个回调函数返回比对信息
@@ -79,4 +60,4 @@ userSchema.methods={
     }
 }  
 //发布模型
-mongoose.model('User',userSchema)
+mongoose.model('admin',adminSchema)

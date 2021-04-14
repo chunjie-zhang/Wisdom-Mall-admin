@@ -17,7 +17,10 @@ const goodsSchema = new Schema({
     AMOUNT: Number,
     DETAIL: String,
     BRIEF: String,
-    SALES_COUNT: Number,
+    SALES_COUNT: {
+        type: Number,
+        default: 0
+    },
     IMAGE1: String,
     IMAGE2: String,
     IMAGE3: String,

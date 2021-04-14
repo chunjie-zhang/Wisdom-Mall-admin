@@ -7,6 +7,8 @@ const cors = require("koa2-cors");//解决跨域
 const Router = require("koa-router");
 let user = require("./appApi/user");
 let goods = require("./appApi/goods");
+let admin = require("./appApi/admin");
+let socket = require("./appApi/socket");
 
 app.use(bodyParser());
 app.use(cors());
@@ -15,6 +17,8 @@ app.use(cors());
 let router = new Router();
 router.use("/user",user.routes())
 router.use("/goods",goods.routes());
+router.use("/admin",admin.routes());
+router.use("/socket",socket.routes());
 
 //加载路由中间件
 app.use(router.routes());

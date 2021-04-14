@@ -9,14 +9,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import "@/assets/css/main.css";
 import store from './store.js';
 
-import {CellGroup,Cell,Tabbar,TabbarItem,Stepper,PullRefresh,Tab,Tabs,Button,Col,Row,Swipe,SwipeItem,Lazyload,List,Field,NavBar} from "vant"
+import {CellGroup,Cell,Search,Tabbar,TabbarItem,Stepper,PullRefresh,Tab,Tabs,Button,Col,Row,Swipe,SwipeItem,Lazyload,List,Field,NavBar,Toast,ImagePreview,Sticky} from "vant"
 //Lazyload 是按需加载
 
 
-require("../mock/index.js");
-
 Vue.use(ElementUI)
-Vue.use(Cell).use(CellGroup).use(Tabbar).use(TabbarItem).use(Stepper).use(PullRefresh).use(Tabs).use(Tab).use(NavBar).use(Field).use(Button).use(Col).use(Row).use(Swipe).use(SwipeItem).use(Lazyload).use(List);
+Vue.use(Cell).use(CellGroup).use(Tabbar).use(TabbarItem).use(Stepper).use(PullRefresh).use(Tabs).use(Tab).use(NavBar).use(Field).use(Button).use(Col).use(Row).use(Swipe).use(Toast).use(SwipeItem).use(Lazyload).use(List).use(ImagePreview).use(Search).use(Sticky);
 
 Vue.config.productionTip = false
 

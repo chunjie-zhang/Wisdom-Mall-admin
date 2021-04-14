@@ -116,6 +116,7 @@
           :total="commentTotal"
           :page-size="5"
           class="comment-pagination"
+          @current-change="handleCurrentChange"
         >
         </el-pagination>
       </div>
@@ -138,44 +139,7 @@ export default {
       myUserId: "",
       replayId: "",
       hasData: true,
-      newCommentData: [
-        // {
-        //   username: "张过年",
-        //   evalaute:
-        //     "好吃qerv45yb67u87omn89中并无好感， 那个号容二虎名片whvfhjkev深度理解和麻烦哦附件买了让他看见护理研究匹7 接口卡结果磨皮i就，图片【4ij 一和你们狗缪和，回眸还没文人风骨热感突然高热通过热汤热烫热烫人发的给我发个违规，，",
-        //   sub_comment: [
-        //     {
-        //       username: "张过年",
-        //       replay: "张春节",
-        //       evalaute:
-        //         "好吃qerv45yb67u87omn89中并无好感， 那个号容二虎名片whvfhjkev深度理解和麻烦哦附件买了让他看见护理研究匹7 接口卡结果磨皮i就，图片【4ij 一和你们狗缪和，回眸还没文人风骨热感突然高热通过热汤热烫热烫人发的给我发个违规，，",
-        //     },
-        //     {
-        //       username: "张过年",
-        //       replay: "张春节",
-        //       evalaute: "好吃",
-        //     },
-        //   ],
-        // },
-        // {
-        //   username: "张过年11",
-        //   evalaute:
-        //     "好吃qerv45yb67u87omn89中并无好感， 那个号容二虎名片whvfhjkev深度理解和麻烦哦附件买了让他看见护理研究匹7 接口卡结果磨皮i就，图片【4ij 一和你们狗缪和，回眸还没文人风骨热感突然高热通过热汤热烫热烫人发的给我发个违规，，",
-        //   sub_comment: [
-        //     {
-        //       username: "张过年22",
-        //       replay: "张春节",
-        //       evalaute:
-        //         "好吃qerv45yb67u87omn89中并无好感， 那个号容二虎名片whvfhjkev深度理解和麻烦哦附件买了让他看见护理研究匹7 接口卡结果磨皮i就，图片【4ij 一和你们狗缪和，回眸还没文人风骨热感突然高热通过热汤热烫热烫人发的给我发个违规，，",
-        //     },
-        //     {
-        //       username: "张过年33",
-        //       replay: "张春节",
-        //       evalaute: "好吃",
-        //     },
-        //   ],
-        // },
-      ],
+      newCommentData: [],
       commentTotal: 0,
       text: "",
       text1: "",
@@ -254,6 +218,10 @@ export default {
       }).catch((err)=>{
         console.log(err)
       })
+    },
+    handleCurrentChange(val){
+      console.log(val)
+      this.newCommentData = this.commentData.slice((val-1)*5, val*5);
     }
   },
 };
@@ -293,7 +261,7 @@ export default {
 }
 .comment-main-comment {
   margin-top: 5px;
-  margin-left: 15px;
+  margin-left: 25px;
   font-size: 16px;
   flex-wrap: wrap;
 }

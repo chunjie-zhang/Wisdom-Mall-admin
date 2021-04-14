@@ -15,7 +15,7 @@
                  <router-link :to='{name: "pc_collect"}'>我的收藏</router-link>
              </dd>
              <dd>
-                 <router-link to="/">账户设置</router-link>
+                 <router-link :to='{name: "pc_location"}'>收货地址</router-link>
              </dd>
          </dl>
       </li>

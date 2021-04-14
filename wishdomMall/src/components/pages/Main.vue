@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="main-div">
-      <keep-alive>
         <router-view />
-      </keep-alive>
     </div>
 
     <van-tabbar v-model="active" @change="changeTabbar(active)">
