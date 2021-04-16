@@ -61,9 +61,9 @@ export default {
        /**
         * 如果不加定时器我们点击搜索列表会先执行blur事件,从而搜索列表会消失
         */
-      //  setTimeout(()=>{
-      //   this.isfocus = false; 
-      //  },100)
+       setTimeout(()=>{
+        this.isfocus = false; 
+       },500)
      },
 
      handleSearchData() {
